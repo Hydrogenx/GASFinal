@@ -41,36 +41,44 @@ public:
 
 	//Max Health
 	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_MaxHealth)
-		FGameplayAttributeData MaxHealth;
+	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UPlayerAttribute, MaxHealth)
-
 	UFUNCTION()
 	virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth);
 
 
 	//Health
 	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_Health)
-		FGameplayAttributeData Health;
+	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UPlayerAttribute, Health)
-		UFUNCTION()
+	UFUNCTION()
 	virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
 
 
 	//MaxStamina
 	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_MaxStamina)
-		FGameplayAttributeData MaxStamina;
+	FGameplayAttributeData MaxStamina;
 	ATTRIBUTE_ACCESSORS(UPlayerAttribute, MaxStamina)
-		UFUNCTION()
+	UFUNCTION()
 	virtual void OnRep_MaxStamina(const FGameplayAttributeData& OldMaxStamina);
 
 
 	//Stamina
 
 	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_Stamina)
-		FGameplayAttributeData Stamina;
+	FGameplayAttributeData Stamina;
 	ATTRIBUTE_ACCESSORS(UPlayerAttribute, Stamina)
-		UFUNCTION()
+	UFUNCTION()
 	virtual void OnRep_Stamina(const FGameplayAttributeData& OldStamina);
+
+
+
+	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_Armor)
+	FGameplayAttributeData Armor;
+	ATTRIBUTE_ACCESSORS(UPlayerAttribute, Armor)
+	UFUNCTION()
+	virtual void OnRep_Armor(const FGameplayAttributeData& OldStamina);
+
 
 
 

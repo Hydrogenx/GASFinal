@@ -8,7 +8,7 @@
 #include "GASFinalCharacter.h"
 
 UPlayerAttribute::UPlayerAttribute()
-	:Health(1.0f), Stamina(1.0f)
+	:Health(1.0f), Stamina(70.0f), MaxStamina(100.0f), Armor(15.0f)
 	
 {
 
@@ -156,6 +156,7 @@ void UPlayerAttribute::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(UPlayerAttribute, Health);
 	DOREPLIFETIME(UPlayerAttribute, MaxStamina);
 	DOREPLIFETIME(UPlayerAttribute, Stamina);
+	DOREPLIFETIME(UPlayerAttribute, Armor);
 	//... -->
 
 }
@@ -183,7 +184,8 @@ void UPlayerAttribute::OnRep_Stamina(const FGameplayAttributeData& OldValue)
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerAttribute, Stamina, OldValue);
 }
 
-
-
-
+void UPlayerAttribute::OnRep_Armor(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerAttribute, Armor, OldValue);
+}
 
