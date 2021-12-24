@@ -9,7 +9,8 @@ struct DamageCapture
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Armor);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Health);
-	
+	DECLARE_ATTRIBUTE_CAPTUREDEF(Attack);
+
 
 	DamageCapture()
 	{
@@ -18,8 +19,10 @@ struct DamageCapture
 		// We're not capturing anything from the Source in this example, but there could be like AttackPower attributes that you might want.
 
 		// Capture optional Damage set on the damage GE as a CalculationModifier under the ExecutionCalculation
-		//DEFINE_ATTRIBUTE_CAPTUREDEF(UPlayerAttribute, Armor, Source, true);
 		
+		//Source
+		DEFINE_ATTRIBUTE_CAPTUREDEF(UPlayerAttribute, Attack, Source, true);
+
 
 		// Capture the Target's Armor. Don't snapshot.
 		DEFINE_ATTRIBUTE_CAPTUREDEF(UPlayerAttribute, Health, Target, false);
@@ -40,10 +43,12 @@ UEffectExecutionCalculation::UEffectExecutionCalculation()
 	
 	RelevantAttributesToCapture.Add(GetDamageCapture().ArmorDef);
 	RelevantAttributesToCapture.Add(GetDamageCapture().HealthDef);
+	RelevantAttributesToCapture.Add(GetDamageCapture().AttackDef);
+
 	
 
 	//Add this tag to project.
-	ValidTransientAggregatorIdentifiers.AddTag(FGameplayTag::RequestGameplayTag("Calculation.Damage.Melee"));
+	//ValidTransientAggregatorIdentifiers.AddTag(FGameplayTag::RequestGameplayTag("Calculation.Damage.Melee"));
 	
 
 }
@@ -51,35 +56,42 @@ UEffectExecutionCalculation::UEffectExecutionCalculation()
 void UEffectExecutionCalculation::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecParams, FGameplayEffectCustomExecutionOutput& ExecOutputs) const
 {
 	//Calc Variables
-	float OutHealth = 5.0f;
+	float TargetHealthOutput = 5.0f;
 
 
 	//Capture Variables
-	float ArmorMagnetute = 5.f;
-	float HealthMagnetute = 5.f;
-	float AttackDamage = 5.f;
+	float ArmorTarget = 5.f;
+	float HealthTarget = 5.f;
+	float AttackSource = 0.f;
 
 	
 
-	ExecParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageCapture().ArmorDef, FAggregatorEvaluateParameters(), ArmorMagnetute);
-	ExecParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageCapture().HealthDef, FAggregatorEvaluateParameters(), HealthMagnetute);
-	
+	ExecParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageCapture().ArmorDef, FAggregatorEvaluateParameters(), ArmorTarget);
+	ExecParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageCapture().HealthDef, FAggregatorEvaluateParameters(), HealthTarget);
+	ExecParams.AttemptCalculateCapturedAttributeMagnitude(GetDamageCapture().AttackDef, FAggregatorEvaluateParameters(), AttackSource);
 
-		//Scalable Float Listen
+
+
+	//Scalable Float Listen
+	//float AttackDamage = 5.f;
 	//ExecParams.AttemptCalculateTransientAggregatorMagnitude(FGameplayTag::RequestGameplayTag("Calculation.Damage.Melee"), FAggregatorEvaluateParameters(), AttackDamage);
 	
+
+
 		//SetByCaller Listen
+	/*
 	const FGameplayEffectSpec& Spec = ExecParams.GetOwningSpec();
 	AttackDamage = Spec.GetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Calculation.Damage.Melee")), false, -1.0f), 0.0f;
+	*/
 
 	
 
 	//Start Calculation
-	OutHealth = HealthMagnetute - (AttackDamage - ArmorMagnetute); 
+	TargetHealthOutput = HealthTarget - (AttackSource - ArmorTarget);
 
 
 	//Output
-	ExecOutputs.AddOutputModifier(FGameplayModifierEvaluatedData(GetDamageCapture().HealthProperty, EGameplayModOp::Override, OutHealth));
+	ExecOutputs.AddOutputModifier(FGameplayModifierEvaluatedData(GetDamageCapture().HealthProperty, EGameplayModOp::Override, TargetHealthOutput));
 	
 	
 

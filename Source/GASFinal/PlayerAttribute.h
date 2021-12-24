@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
 #include "AbilitySystemComponent.h" //<--
+#include "AbilitySystemBlueprintLibrary.h"
 #include "PlayerAttribute.generated.h"
 
 /**
@@ -54,6 +55,13 @@ public:
 	UFUNCTION()
 	virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
 
+	//Stamina
+
+	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_Stamina)
+		FGameplayAttributeData Stamina;
+	ATTRIBUTE_ACCESSORS(UPlayerAttribute, Stamina)
+		UFUNCTION()
+		virtual void OnRep_Stamina(const FGameplayAttributeData& OldStamina);
 
 	//MaxStamina
 	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_MaxStamina)
@@ -63,13 +71,7 @@ public:
 	virtual void OnRep_MaxStamina(const FGameplayAttributeData& OldMaxStamina);
 
 
-	//Stamina
-
-	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_Stamina)
-	FGameplayAttributeData Stamina;
-	ATTRIBUTE_ACCESSORS(UPlayerAttribute, Stamina)
-	UFUNCTION()
-	virtual void OnRep_Stamina(const FGameplayAttributeData& OldStamina);
+	
 
 
 
@@ -77,14 +79,42 @@ public:
 	FGameplayAttributeData Armor;
 	ATTRIBUTE_ACCESSORS(UPlayerAttribute, Armor)
 	UFUNCTION()
-	virtual void OnRep_Armor(const FGameplayAttributeData& OldStamina);
+	virtual void OnRep_Armor(const FGameplayAttributeData& OldArmor);
+
+
+	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_Attack)
+	FGameplayAttributeData Attack;
+	ATTRIBUTE_ACCESSORS(UPlayerAttribute, Attack)
+	UFUNCTION()
+	virtual void OnRep_Attack(const FGameplayAttributeData& OldAttack);
+
+
+	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_CharacterLevel)
+	FGameplayAttributeData CharacterLevel;
+	ATTRIBUTE_ACCESSORS(UPlayerAttribute, CharacterLevel)
+	UFUNCTION()
+	virtual void OnRep_CharacterLevel(const FGameplayAttributeData& OldCharacterLevel);
+
+
+	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_CharacterLevel)
+	FGameplayAttributeData Exp;
+	ATTRIBUTE_ACCESSORS(UPlayerAttribute, Exp)
+	UFUNCTION()
+	virtual void OnRep_Exp(const FGameplayAttributeData& OldExp);
+
+	UPROPERTY(BlueprintReadOnly, Category = "Arsh", ReplicatedUsing = OnRep_ExpBounty)
+	FGameplayAttributeData ExpBounty;
+	ATTRIBUTE_ACCESSORS(UPlayerAttribute, ExpBounty)
+	UFUNCTION()
+	virtual void OnRep_ExpBounty(const FGameplayAttributeData& OldExpBounty);
 
 
 
 
 
 
-
+public:
+	UAbilitySystemBlueprintLibrary* Library;
 
 
 
@@ -92,7 +122,9 @@ public:
 
 
 protected:
-	void AdjustAttributeForMaxChange(FGameplayAttributeData& AffectedAttribute, const FGameplayAttributeData& MaxAttribute, float NewMaxValue, const FGameplayAttribute& AffectedAttributeProperty);
+	//void AdjustAttributeForMaxChange(FGameplayAttributeData& AffectedAttribute, const FGameplayAttributeData& MaxAttribute, float NewMaxValue, const FGameplayAttribute& AffectedAttributeProperty);
+
+	
 
 
 };

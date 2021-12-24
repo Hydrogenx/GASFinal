@@ -144,6 +144,15 @@ int32 AGASFinalCharacter::GetCharacterLevel() const
 	return CharacterLevel;
 }
 
+void AGASFinalCharacter::Die_Implementation(AActor* KilledBy)
+{
+	FGameplayEventData Payload;
+	Payload.Target = KilledBy;
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(AbilitySystem->GetOwnerActor(), FGameplayTag::RequestGameplayTag("Status.Die"), Payload);
+//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("VALID"));
+	
+}
+
 
 void AGASFinalCharacter::BeginPlay()
 {
@@ -210,7 +219,4 @@ void AGASFinalCharacter::AddStartupGameplayAbilities()
 
 
 //Your Journey Ends Here <---
-
-
-
 

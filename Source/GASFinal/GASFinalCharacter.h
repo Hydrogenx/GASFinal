@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "PlayerAttribute.h"			//<-- Journey
 #include "AbilitySystemInterface.h"		//<-- Journey
+#include "Net/UnrealNetwork.h"
+#include "AbilitySystemBlueprintLibrary.h"
 #include "GASFinalCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -83,6 +85,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 		virtual int32 GetCharacterLevel() const;
 
+	UFUNCTION(BlueprintCallable, Reliable, client) 
+		void Die(AActor* KilledBy);
 
 protected:
 
@@ -116,13 +120,6 @@ protected:
 
 	// Friended to allow access to handle functions above
 	//friend UPlayerattribute;
-
-
-
-
-
-
-
 
 
 

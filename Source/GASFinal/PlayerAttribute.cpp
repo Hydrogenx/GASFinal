@@ -8,8 +8,7 @@
 #include "GASFinalCharacter.h"
 
 UPlayerAttribute::UPlayerAttribute()
-	:Health(1.0f), Stamina(70.0f), MaxStamina(100.0f), Armor(15.0f)
-	
+	:Health(1.0f), Stamina(70.0f), MaxStamina(100.0f), Armor(0.0f), Attack(0.0f), CharacterLevel(1.0f), ExpBounty(35.0f)
 {
 
 }
@@ -113,6 +112,8 @@ void UPlayerAttribute::PreAttributeChange(const FGameplayAttribute& Attribute, f
 		}
 
 	}
+
+
 		
 	//... -->
 }
@@ -123,6 +124,7 @@ void UPlayerAttribute::PreAttributeChange(const FGameplayAttribute& Attribute, f
 void UPlayerAttribute::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
+	
 
 /*
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
@@ -140,7 +142,49 @@ void UPlayerAttribute::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 	}
 */
 
+
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+			
+		//Can Deðeri sýfýrýn altýna düþerse tetiklenir.
+		if (GetHealth() <= 0.f){
+		
+			//Artýk Sen Öldün!
+
+			
+			UAbilitySystemComponent* Source = Data.EffectSpec.GetContext().GetOriginalInstigatorAbilitySystemComponent();
+			
+			UAbilitySystemComponent* AbilitySystem = GetOwningAbilitySystemComponent();		
+			//
+			//FGameplayEventData Payload;
+			////Library->SendGameplayEventToActor(AbilitySystem->GetOwner(), DieTag, Payload);
+			////AbilitySystem.Data
+			//UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(AbilitySystem->GetOwnerActor(), FGameplayTag::RequestGameplayTag("Status.Die"), Payload);
+			//
+			//if (IsValid(AbilitySystem->GetOwnerActor()))
+			//{
+			//	//FString TheFloatStr = FString::SanitizeFloat(Health.GetCurrentValue());
+			//	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, TEXT("VALID"));
+			//}
+			//	
+			
+			AGASFinalCharacter* MainCharacter = Cast<AGASFinalCharacter>(GetOwningActor());
+			
+
+			MainCharacter->Die(Source->GetOwner());
+			
+			
+		}
+
+	}
+
 }
+
+
+
+
+
+
 
 
 
@@ -157,6 +201,10 @@ void UPlayerAttribute::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME(UPlayerAttribute, MaxStamina);
 	DOREPLIFETIME(UPlayerAttribute, Stamina);
 	DOREPLIFETIME(UPlayerAttribute, Armor);
+	DOREPLIFETIME(UPlayerAttribute, Attack);
+	DOREPLIFETIME(UPlayerAttribute, CharacterLevel);
+	DOREPLIFETIME(UPlayerAttribute, Exp);
+	DOREPLIFETIME(UPlayerAttribute, ExpBounty);
 	//... -->
 
 }
@@ -189,3 +237,22 @@ void UPlayerAttribute::OnRep_Armor(const FGameplayAttributeData& OldValue)
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerAttribute, Armor, OldValue);
 }
 
+void UPlayerAttribute::OnRep_Attack(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerAttribute, Attack, OldValue);
+}
+
+void UPlayerAttribute::OnRep_CharacterLevel(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerAttribute, CharacterLevel, OldValue);
+}
+
+void UPlayerAttribute::OnRep_Exp(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerAttribute, Exp, OldValue);
+}
+
+void UPlayerAttribute::OnRep_ExpBounty(const FGameplayAttributeData& OldValue)
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UPlayerAttribute, ExpBounty, OldValue);
+}
