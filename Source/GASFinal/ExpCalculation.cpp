@@ -73,8 +73,8 @@ void UExpCalculation::Execute_Implementation(const FGameplayEffectCustomExecutio
 		//Eðer Level alýrsa Efekte eklenen Conditional Gameplay Effect'i tetiklemek için aþaðýdaki Fonksiyonu kullan.
 		ExecOutputs.MarkConditionalGameplayEffectsToTrigger();
 		
-		FString TheFloatStr = FString::SanitizeFloat(Exp);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TheFloatStr);
+		/*FString TheFloatStr = FString::SanitizeFloat(Exp);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Green, TheFloatStr);*/
 	}
 	
 }
