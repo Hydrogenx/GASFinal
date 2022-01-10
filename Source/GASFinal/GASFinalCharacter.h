@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine.h"
 #include "GameFramework/Character.h"
-#include "PlayerAttribute.h"			//<-- Journey
-#include "AbilitySystemInterface.h"		//<-- Journey
-#include "Net/UnrealNetwork.h"
-#include "AbilitySystemBlueprintLibrary.h"
+#include "PlayerAttribute.h"				//<-- Journey
+#include "AbilitySystemInterface.h"			//<-- Journey
+#include "Net/UnrealNetwork.h"				//<-- Journey
+#include "AbilitySystemBlueprintLibrary.h"	//<-- Journey
 #include "GASFinalCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -25,12 +26,7 @@ class AGASFinalCharacter : public ACharacter, public IAbilitySystemInterface //<
 public:
 	AGASFinalCharacter();
 
-	
-
 protected:
-
-	
-
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
 
@@ -98,10 +94,8 @@ protected:
 	UPROPERTY(EditAnywhere, Replicated, Category = Abilities)
 		int32 CharacterLevel;
 
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Arsh)
 		TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
-
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Arsh)
 		TArray<TSubclassOf<UGameplayEffect>> GrantedEffects;
@@ -110,10 +104,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Arsh)
 		UAbilitySystemComponent* AbilitySystem;
 
-
 	UPROPERTY()
 		UPlayerAttribute* AttributeSet;
-
 
 	void AddStartupGameplayAbilities();
 
